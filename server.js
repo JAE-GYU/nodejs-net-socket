@@ -29,7 +29,8 @@ server.on('connection', (socket) => {
       ostream.write(oFile[i]);
     }
 
-    console.log("Connection End")
+    console.log(`File Name: '${fileName}' Done.`);
+    console.log("Connection End");
   });
 
   socket.on("error", (err) => {
