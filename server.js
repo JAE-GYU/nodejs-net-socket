@@ -19,12 +19,12 @@ server.on('connection', (socket) => {
     buf.push(chunk);
   });
   socket.on("end", () => {
-    buf = buf.join().split("\n", 3);
+    buf = buf.join("").split("\n");
     fileName = buf[0];
     fileSize = +buf[1];
 
-    oFile = buf[2];
-    let ostream = fs.createWriteStream("./receiver/" + fileName);
+    oFile = buf.splice(2).join("\n");
+    let ostream = fs.createWriteStream(config.RECEIVE_DIR + fileName);
     for (i = 0; i < oFile.length; i++) {
       ostream.write(oFile[i]);
     }

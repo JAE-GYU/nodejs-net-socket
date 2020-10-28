@@ -1,5 +1,4 @@
 const config = require('./config');
-const utils = require('./utils');
 const fs = require('fs');
 const net = require('net');
 
