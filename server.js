@@ -48,6 +48,6 @@ server.on("error", (err) => {
   console.log(err)
 });
 
-server.listen(3000, () => {
+server.listen(config.SERVER_PORT, () => {
   console.log(`Server listening ${SERVER_PORT}`);
 });
