@@ -11,22 +11,33 @@ socket.on('connect', () => {
   console.log(`Connected to ${SERVER_PORT}`);
 
   const istream = fs.createReadStream("./test.png");
-  socket.pipe(process.stdout);
-  istream.on("readable", function () {
-    let data;
-    while (data = this.read()) {
-      socket.write(data);
-    }
-  })
 
-  istream.on("end", function () {
-    socket.end();
-  })
+  // fileName과 fileSize가 붙어서 가는 경우가 있어서 콜백으로 처리함;;
+  // 좋은 방법 생기면 다시 처리
+  let fileNameBuffer = Buffer.from("test.png");
+  socket.write(fileNameBuffer, () => {
+    let fileSize = Buffer.from("20");
+    socket.write(fileSize, () => {
+      socket.pipe(process.stdout);
 
-  socket.on("end", () => {
-    console.log("\nTransfer is done!");
-  })
+      istream.on("readable", () => {
+        let data;
+        while (data = istream.read()) {
+          socket.write(data);
+        }
+      })
+
+      istream.on("end", () => {
+        socket.end();
+      })
+
+    });
+  });
 });
+
+socket.on("end", () => {
+  console.log("\nTransfer is done!");
+})
 
 socket.on("error", (err) => {
   console.log("Error", err);

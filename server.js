@@ -10,10 +10,23 @@ server.on('connection', (socket) => {
   const remoteAddress = `${socket.remoteAddress}:${socket.remotePort}`;
   console.log(`new client connection ${remoteAddress}`);
 
-  let ostream = fs.createWriteStream("./receiver/test2.png");
+  let ostream = null;
+  let fileName = "";
+  let fileSize = 0;
+  let i = 0;
+
   socket.on('data', chunk => {
-    console.log(chunk)
-    ostream.write(chunk);
+    if (i === 0) {
+      fileName = chunk;
+      console.log("fileName:", chunk.toString())
+      ostream = fs.createWriteStream("./receiver/" + fileName);
+    } else if (i === 1) {
+      fileSize = +chunk;
+      console.log("fileSize:" + chunk)
+    } else {
+      ostream.write(chunk);
+    }
+    i++;
   });
   socket.on("end", () => {
     console.log("Connection End")
