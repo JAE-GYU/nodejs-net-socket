@@ -1,4 +1,5 @@
 const config = require('./config');
+const utils = require('./utils');
 const fs = require('fs');
 const net = require('net');
 
@@ -10,25 +11,24 @@ server.on('connection', (socket) => {
   const remoteAddress = `${socket.remoteAddress}:${socket.remotePort}`;
   console.log(`new client connection ${remoteAddress}`);
 
-  let ostream = null;
   let fileName = "";
   let fileSize = 0;
-  let i = 0;
+  let buf = [];
 
   socket.on('data', chunk => {
-    if (i === 0) {
-      fileName = chunk;
-      console.log("fileName:", chunk.toString())
-      ostream = fs.createWriteStream("./receiver/" + fileName);
-    } else if (i === 1) {
-      fileSize = +chunk;
-      console.log("fileSize:" + chunk)
-    } else {
-      ostream.write(chunk);
-    }
-    i++;
+    buf.push(chunk);
   });
   socket.on("end", () => {
+    buf = buf.join().split("\n", 3);
+    fileName = buf[0];
+    fileSize = +buf[1];
+
+    oFile = buf[2];
+    let ostream = fs.createWriteStream("./receiver/" + fileName);
+    for (i = 0; i < oFile.length; i++) {
+      ostream.write(oFile[i]);
+    }
+
     console.log("Connection End")
   });
 
@@ -38,7 +38,7 @@ server.on('connection', (socket) => {
 });
 
 server.on("error", (err) => {
-  throw err
+  console.log(err)
 });
 
 server.listen(3000, () => {

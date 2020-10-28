@@ -1,4 +1,5 @@
 const config = require('./config');
+const utils = require('./utils');
 const fs = require('fs');
 const net = require('net');
 
@@ -10,29 +11,24 @@ socket.setEncoding('utf8');
 socket.on('connect', () => {
   console.log(`Connected to ${SERVER_PORT}`);
 
-  const istream = fs.createReadStream("./test.png");
+  const istream = fs.createReadStream("./test.txt");
 
-  // fileName과 fileSize가 붙어서 가는 경우가 있어서 콜백으로 처리함;;
-  // 좋은 방법 생기면 다시 처리
-  let fileNameBuffer = Buffer.from("test.png");
-  socket.write(fileNameBuffer, () => {
-    let fileSize = Buffer.from("20");
-    socket.write(fileSize, () => {
-      socket.pipe(process.stdout);
+  let fileNameBuffer = Buffer.from("123123.txt\n20\n");
+  socket.write(fileNameBuffer);
 
-      istream.on("readable", () => {
-        let data;
-        while (data = istream.read()) {
-          socket.write(data);
-        }
-      })
+  socket.pipe(process.stdout);
+  istream.on("readable", () => {
+    let data;
+    while (data = istream.read()) {
+      console.log(data.toString())
+      socket.write(data);
+    }
+  })
 
-      istream.on("end", () => {
-        socket.end();
-      })
+  istream.on("end", () => {
+    socket.end();
+  })
 
-    });
-  });
 });
 
 socket.on("end", () => {
