@@ -20,9 +20,15 @@ server.on('connection', (socket) => {
   });
   socket.on("end", () => {
     buf = buf.join("").split("\n");
-    fileName = buf[0];
+
+    // 파일 이름 규칙
+    // yyyymmdd_사용자ID_randomID(5).ua
+    fileName = buf[0].split(".");
+    fileName.pop();
+    fileName = `${fileName.join(".")}_${utils.makeid(5)}.ua`;
     fileSize = +buf[1];
 
+    // 파일 컨텐츠 처리 
     oFile = buf.splice(2).join("\n");
     let ostream = fs.createWriteStream(config.RECEIVE_DIR + fileName);
     for (i = 0; i < oFile.length; i++) {

@@ -12,7 +12,7 @@ socket.on('connect', () => {
 
   const istream = fs.createReadStream("./test.txt");
 
-  let fileNameBuffer = Buffer.from("123123.txt\n20\n");
+  let fileNameBuffer = Buffer.from("20201028_shin3372@inzent.com.log\n20\n");
   socket.write(fileNameBuffer);
 
   socket.pipe(process.stdout);
