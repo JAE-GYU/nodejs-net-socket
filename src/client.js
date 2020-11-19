@@ -1,18 +1,18 @@
-const config = require('./config');
+const config = require('../config');
 const fs = require('fs');
 const net = require('net');
 
-const SERVER_PORT = config.SERVER_PORT;
+const SOCKET_PORT = config.SOCKET_PORT;
 
-const socket = net.connect({ port: SERVER_PORT });
+const socket = net.connect({ port: SOCKET_PORT });
 socket.setEncoding('utf8');
 
 socket.on('connect', () => {
-  console.log(`Connected to ${SERVER_PORT}`);
+  console.log(`Connected to ${SOCKET_PORT}`);
 
-  const istream = fs.createReadStream("./test.txt");
+  const istream = fs.createReadStream("examples/test.txt");
 
-  let fileNameBuffer = Buffer.from("20201028_shin3372@inzent.com.log\n20\n");
+  let fileNameBuffer = Buffer.from("20201029_gyu@inzent.com.log\n20\n");
   socket.write(fileNameBuffer);
 
   socket.pipe(process.stdout);

@@ -3,7 +3,7 @@ const utils = require('./utils');
 const fs = require('fs');
 const net = require('net');
 
-const SERVER_PORT = config.SERVER_PORT;
+const SOCKET_PORT = config.SOCKET_PORT;
 
 const server = net.createServer();
 
@@ -22,7 +22,10 @@ server.on('connection', (socket) => {
     buf = buf.join("").split("\n");
 
     // 파일 이름 규칙
-    // yyyymmdd_사용자ID_randomID(5).ua
+    //    변경 전: yyyymmdd_userID_randomID(5).ua
+    //    변경 후: yyyymmddhhmmss_userID.ua
+    //      - yyyymmdd에서 yyyymmddhhmmss로 변경 및 ramdomID 제거
+
     fileName = buf[0].split(".");
     fileName.pop();
     fileName = `${fileName.join(".")}_${utils.makeid(5)}.ua`;
@@ -48,6 +51,6 @@ server.on("error", (err) => {
   console.log(err)
 });
 
-server.listen(config.SERVER_PORT, () => {
-  console.log(`Server listening ${SERVER_PORT}`);
+server.listen(config.SOCKET_PORT, () => {
+  console.log(`Server listening ${SOCKET_PORT}`);
 });

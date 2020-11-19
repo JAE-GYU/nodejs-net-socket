@@ -1,4 +1,5 @@
 {
-  "SERVER_PORT": 3000,
-  "RECEIVE_DIR": "./receiver/"
+  "WEB_PORT": 8081,
+  "SOCKET_PORT": 8087,
+  "RECEIVE_DIR": "examples/receiver/"
 }
