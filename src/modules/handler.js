@@ -3,8 +3,8 @@ exports.createHandler = (method) => {
 }
 
 function Handler(method) {
-  this.process = (request, response) => {
+  this.process = (...args) => {
     params = null;
-    return method.apply(this, [request, response, params]);
+    return method.apply(this, args);
   }
 }

@@ -25,17 +25,17 @@ exports.route = (request) => {
   let handler = handlers[url.pathname];
   if (!handler) {
     handler = this.missing(request)
-    return handler
   } else {
     if (!handler.requestMethods.includes(request.method)) {
-      console.log(handler.requestMethods, request.method)
-      return handlerFactory.createHandler((req, res) => {
+      handler = handlerFactory.createHandler((req, res) => {
         this.writeStatusMessage(res, "METHOD_NOT_ALLOWED");
       });
     } else {
-      return handler.handler
+      handler = handler.handler
     }
   }
+
+  return handler;
 }
 
 exports.missing = (request) => {

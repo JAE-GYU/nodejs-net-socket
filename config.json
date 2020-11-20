@@ -1,5 +1,7 @@
 {
   "WEB_PORT": 8081,
   "SOCKET_PORT": 8087,
-  "RECEIVE_DIR": "examples/receiver/"
+  "RECEIVE_DIR": "/examples/receiver/",
+  "POLICY_FILE_PATH": "/examples/",
+  "POLICY_FILE_NAME": "policy.json"
 }

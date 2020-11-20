@@ -1,8 +1,13 @@
-const COMMAND = {
-  REQUEST_RULE: 0,
-  STORE_LOG: 1,
-  STORE_DETECTION_RESULT: 2,
-  REPORT_ERROR: 3
+exports.STATUS = {
+  "IDLE": -1,
+  "ERROR": 0,
+  "SUCCESS": 1,
+  "WARNING": 2
+}
+
+exports.COMMAND = {
+  "REQUEST_RULE": 0,
+  "STORE_FILE": 1,
 }
 
 exports.CONTENT_TYPE = {

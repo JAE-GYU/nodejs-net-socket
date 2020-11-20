@@ -1,9 +1,8 @@
-const config = require('./config');
 const utils = require('./utils');
 const fs = require('fs');
 const net = require('net');
 
-const SOCKET_PORT = config.SOCKET_PORT;
+const SERVER_PORT = config.SERVER_PORT;
 
 const server = net.createServer();
 
@@ -51,6 +50,6 @@ server.on("error", (err) => {
   console.log(err)
 });
 
-server.listen(config.SOCKET_PORT, () => {
-  console.log(`Server listening ${SOCKET_PORT}`);
+server.listen(config.SERVER_PORT, () => {
+  console.log(`Server listening ${SERVER_PORT}`);
 });

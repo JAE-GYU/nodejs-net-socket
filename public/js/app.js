@@ -61,7 +61,7 @@ const app = new Vue({
           "interval": 10800000
         }
       }
-      axios.post('/writePolicyFile', { data: policyData })
+      axios.post('/writePolicyFile', policyData)
         .then(res => {
           console.log(res);
         })
